@@ -7,14 +7,14 @@ function init() {
 
     var plane = createPlane(100, 0x333333);
     plane.rotation.x = Math.PI / 2;
-    scene.add(plane);
+    //scene.add(plane);
     plane.name = "generalPlane";
 
     /* ADDED CONTENT */
 
     rings = [];
     space = 0;
-    for(var i = 0; i < 10; i++){
+    for (var i = 0; i < 10; i++) {
         space += 10;
         var ring = createRing(10, 0.5, 0xff0000);
         ring.position.z = i - 59.5 + space;
@@ -22,6 +22,20 @@ function init() {
         rings.push(ring);
         scene.add(ring);
     }
+
+    var spheres = [];
+    var space = 0;
+    var planets = new THREE.Group();
+    planets.name = "planets";
+    for(var i = 0; i < 9; i++){
+        space += 10;
+        var sphere = createSphere(1, 0x00ff00);
+        sphere.position.y = 0;
+        sphere.position.z = i - 54 + space;
+        spheres.push(sphere);
+        planets.add(sphere);
+    }
+    scene.add(planets);
 
     /* ADDED CONTENT */
 
@@ -52,45 +66,19 @@ function init() {
 
 var swap = false;
 var turn = false;
-var angle = 0;
+
+var orbit = 8;
+var speed = 50;
 
 function update(renderer, scene, camera, controls) {
     renderer.render(
         scene, camera
     );
 
-    console.log(camera.rotation.y);
-    if(turn == true){
-        if(camera.rotation.y >= Math.PI){
-            if(camera.rotation.y >= Math.PI + Math.PI){
-                turn = false;
-                camera.rotation = 0;
-            }else{
-                camera.rotation.y += 0.2;
-            }
-        }else{
-            if(camera.rotation.y == Math.PI.toFixed(2)){
-                turn = false;
-                camera.rotation.y = Math.PI;
-            }else{
-                camera.rotation.y += 0.2;
-            }
-        }
-    }else{
-        if(swap == true){
-            camera.position.z -= 1;
-            if(camera.position.z <= -100){
-                swap = false;
-                turn = true;
-            }
-        }else if(swap == false){
-            camera.position.z += 1;
-            if(camera.position.z >= 100){
-                swap = true;
-                turn = true;
-            }
-        }
-    }
+    let timestamp = Date.now() * 0.0001;
+    scene.getObjectByName("planets").position.x = Math.cos(timestamp * speed) * orbit;
+    scene.getObjectByName("planets").position.y = Math.sin(timestamp * speed) * orbit;
+    scene.getObjectByName("planets").position.z = Math.sin(timestamp * speed) * orbit;
 
     requestAnimationFrame(function () {
         update(renderer, scene, camera, controls);
@@ -98,3 +86,23 @@ function update(renderer, scene, camera, controls) {
 }
 
 var scene = init();
+
+
+
+
+
+/*
+if (swap == true) {
+        camera.position.z -= 1;
+        if (camera.position.z <= -100) {
+            swap = false;
+            turn = true;
+        }
+    } else if (swap == false) {
+        camera.position.z += 1;
+        if (camera.position.z >= 100) {
+            swap = true;
+            turn = true;
+        }
+    }
+*/
