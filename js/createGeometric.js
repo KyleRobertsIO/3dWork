@@ -7,7 +7,7 @@ function createCube(w, h, d, color) {
         geometry,
         material
     );
-    //mesh.castShadow = true;
+    mesh.castShadow = true;
     return mesh;
 }
 
@@ -22,6 +22,14 @@ function createSphere(size, color) {
     );
     mesh.castShadow = true;
     return mesh;
+}
+
+function createCylinder(rT, rB, seg, h, color){
+    var geometry = new THREE.CylinderGeometry( rT, rB, h, seg );
+    var material = new THREE.MeshPhongMaterial( {color: color} );
+    var cylinder = new THREE.Mesh( geometry, material );
+    cylinder.castShadow = true;
+    return cylinder;
 }
 
 function createPlane(size, color) {
