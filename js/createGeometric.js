@@ -8,6 +8,7 @@ function createCube(w, h, d, color) {
         material
     );
     mesh.castShadow = true;
+    mesh.receiveShadow = true;
     return mesh;
 }
 
@@ -21,6 +22,7 @@ function createSphere(size, color) {
         material
     );
     mesh.castShadow = true;
+    mesh.receiveShadow = true;
     return mesh;
 }
 
@@ -29,6 +31,7 @@ function createCylinder(rT, rB, seg, h, color){
     var material = new THREE.MeshPhongMaterial( {color: color} );
     var cylinder = new THREE.Mesh( geometry, material );
     cylinder.castShadow = true;
+    cylinder.receiveShadow = true;
     return cylinder;
 }
 

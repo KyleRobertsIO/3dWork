@@ -8,25 +8,33 @@ function init() {
     var ambLight = new THREE.AmbientLight(0xffffff);
     scene.add(ambLight);
 
-    /* Train Objects */
     var plane = createPlane(1000, 0x3c9e19);
     plane.rotation.x = Math.PI / 2;
+
+    const loader = new THREE.TextureLoader();
     scene.add(plane);
     plane.name = "generalPlane";
 
+
+    /* Train Objects */
+
+    // Train front
+    var trainFront = createCylinder(2.5, 2.5, 20, 3.5, 0x0077ff);
+    trainFront.position.y = 0;
+    trainFront.position.z = -4;
+    trainFront.rotation.z = Math.PI / 2;
+
     // Steam Engine
-    var topHalf = createCube(2.5, 2, 8, 0x0077ff);
-    topHalf.position.y = 2.5;
-    topHalf.position.z = 1;
-    var steamEngine = createCube(2.5, 3, 10, 0x0077ff);
-    steamEngine.position.y = 2.25;
-    steamEngine.add(topHalf);
+    var steamEngine = createCube(3.5, 5, 8, 0x0077ff);
+    steamEngine.position.y = 3.25;
+    //steamEngine.add(topHalf);
     steamEngine.name = "train";
+    steamEngine.add(trainFront);
     scene.add(steamEngine);
 
     // Cart
-    var cart = createCube(2.5, 5, 10, 0x0077ff);
-    cart.position.y = 1;
+    var cart = createCube(3.5, 5, 10, 0x0077ff);
+    cart.position.y = 0;
     cart.position.z = 11;
     steamEngine.add(cart);
 
@@ -43,17 +51,17 @@ function init() {
     var wheelGroup2 = wheelGroup.clone();
     wheelGroup2.position.z = 11;
     wheelGroup.add(wheelGroup2);
-    wheelGroup.position.y = -1.75;
+    wheelGroup.position.y = -2.75;
     steamEngine.add(wheelGroup);
 
     /* Train Objects */
 
     /* Track */
-    var track = createCube(4, 0.5, 50, 0x7d5514);
+    var track = createCube(4, 0.5, 70, 0xb3b1ac); // was 50 not 70
     track.name = "track";
     scene.add(track);
 
-    var railLeft = createCube(0.5, 0.25, 50, 0x585956);
+    var railLeft = createCube(0.5, 0.25, 70, 0x585956); // was 50 not 70
     railLeft.position.x = 1.5;
     railLeft.position.y = 0.375;
 
@@ -62,9 +70,9 @@ function init() {
     track.add(railLeft, railRight);
 
     var boards = new THREE.Group();
-    var boardZ = -24;
-    for (let i = 0; i < 25; i++) {
-        var board = createCube(3, 0.125, 1, 0x573d11);
+    var boardZ = -34;
+    for (let i = 0; i < 35; i++) {
+        var board = createCube(3, 0.125, 1, 0x87471d); //0x573d11
         board.position.y = 0.3;
         board.position.z = boardZ;
         boardZ += 2;
@@ -78,20 +86,11 @@ function init() {
     scene.add(trackCopy);
     /* Track */
 
-    /* Hills */
-    var hill = createSphere(14, 0x3c9e19);
-    hill.position.y = -7;
-    hill.position.x = -30;
-    hill.position.z = -80;
-    hill.name = "hill";
-    scene.add(hill);
-    /* Hills */
-
     /* Lights */
 
     // Spotlight
-    var spotLight = new THREE.SpotLight(0xffffff, 0.4);
-    spotLight.position.set(100, 50, -50);
+    var spotLight = new THREE.SpotLight(0xFFFF33, 0.4);
+    spotLight.position.set(500, 50, -50);
 
     spotLight.castShadow = true;
 
@@ -130,11 +129,14 @@ function init() {
 
     update(renderer, scene, camera, controls);
 
+    //scene.add(randomHillGen());
+    randomTreeSpawns(scene);
+
     return scene;
 }
 
 var addedTrack = false;
-var speed = 0.3;
+var speed = 3; // default 0.3
 var count = 0;
 var hillMove = false;
 
@@ -146,16 +148,22 @@ function update(renderer, scene, camera, controls) {
     count += speed;
     if (count > 20) {
         let rng = Math.floor((Math.random() * 10) + 1);
-        if(rng > 1){
+        if(rng > 2){
+            var rngHills = randomHillGen();
+            rngHills.name = "rngHills";
+            rngHills.position.z = -80;
+            console.log(rngHills);
+            scene.add(rngHills);
             hillMove = true;
         }
         count = 0;
     }
 
     if(hillMove == true){
-        scene.getObjectByName("hill").position.z += speed;
-        if(scene.getObjectByName("hill").position.z > 80){
-            scene.getObjectByName("hill").position.z = -80;
+        count = 0;
+        scene.getObjectByName("rngHills").position.z += speed;
+        if(scene.getObjectByName("rngHills").position.z > 100){
+            scene.remove(scene.getObjectByName('rngHills'));
             hillMove = false;
         }
     }
