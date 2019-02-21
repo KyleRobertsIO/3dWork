@@ -12,11 +12,18 @@ function randomHillGen(){
     let hillArray = [];
     let hillCount = Math.floor((Math.random() * 15) + 1);
     var addHill = true;
+    let hillsLength = 0;
 
+    let firstLoop = true;
     for(let i = 0; i < hillCount; i++){
         let radius = Math.random() * (15 - 3) + 3;
         let hill = createSphere(radius, 0x3c9e19);
-        
+
+        if(firstLoop == true){
+            hillsLength += radius;
+            firstLoop = false;
+        }
+
         hill.position.x = -30;
         hill.position.y = -radius / 2 * 0.7;
 
@@ -27,6 +34,7 @@ function randomHillGen(){
                 switch(Math.floor((Math.random() * 2) + 1)){
                     case 1: 
                         hill.position.z = hillArray[i-1].position.z + prevHillRadius;
+                        hillsLength += radius;
                         break;
                     case 2: 
                         let predictedDistanceToTrack = hillArray[i-1].position.x + (prevHillRadius * 2);
@@ -60,7 +68,11 @@ function randomHillGen(){
         }
 
     }
-    return hills;
+    let hillsObject = {
+        model: hills,
+        length: Math.floor(hillsLength)
+    }
+    return hillsObject;
 }
 
 function treeGen(){

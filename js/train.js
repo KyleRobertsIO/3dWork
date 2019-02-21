@@ -114,8 +114,8 @@ function init() {
         1000
     );
 
-    camera.position.x = 50;
-    camera.position.y = 15;
+    camera.position.x = 300;
+    camera.position.y = 100;
     camera.position.z = -10;
     camera.lookAt(new THREE.Vector3(0, 0, 0));
 
@@ -129,8 +129,7 @@ function init() {
 
     update(renderer, scene, camera, controls);
 
-    //scene.add(randomHillGen());
-    randomTreeSpawns(scene);
+    buildChunk(scene);
 
     return scene;
 }
@@ -149,24 +148,23 @@ function update(renderer, scene, camera, controls) {
     if (count > 20) {
         let rng = Math.floor((Math.random() * 10) + 1);
         if(rng > 2){
-            var rngHills = randomHillGen();
-            rngHills.name = "rngHills";
-            rngHills.position.z = -80;
-            console.log(rngHills);
-            scene.add(rngHills);
+            //var rngHills = randomHillGen();
+            //rngHills.name = "rngHills";
+            //rngHills.position.z = -80;
+            //scene.add(rngHills);
             hillMove = true;
         }
         count = 0;
     }
 
-    if(hillMove == true){
+    /*if(hillMove == true){
         count = 0;
         scene.getObjectByName("rngHills").position.z += speed;
         if(scene.getObjectByName("rngHills").position.z > 100){
             scene.remove(scene.getObjectByName('rngHills'));
             hillMove = false;
         }
-    }
+    }*/
 
     scene.getObjectByName("track").position.z += speed;
     scene.getObjectByName("trackCopy").position.z += speed;
