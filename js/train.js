@@ -144,7 +144,7 @@ function update(renderer, scene, camera, controls) {
         scene, camera
     );
 
-    count += speed;
+    /*count += speed;
     if (count > 20) {
         let rng = Math.floor((Math.random() * 10) + 1);
         if(rng > 2){
@@ -155,7 +155,7 @@ function update(renderer, scene, camera, controls) {
             hillMove = true;
         }
         count = 0;
-    }
+    }*/
 
     /*if(hillMove == true){
         count = 0;

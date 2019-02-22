@@ -25,36 +25,26 @@ function buildChunk(scene){
 
 
     let hillArray = [];
-    hillCount = Math.random() * (3 - 1) + 1;
+    let hillCount = Math.random() * (3 - 1) + 1;
+
     for(let i = 0; i < hillCount; i++){
-
-        let hills = randomHillGen();
+        let hillObject = rngHills();
+        let randomHillZ = Math.floor(Math.random() * (80 - (-80)) + (-80));
+        if(hillArray == 0){
+            hillObject.model.position.z = randomHillZ;
+            hillArray.push(hillObject);
+        }else{
+            // Loop through hillArray hill positions
+        }
         
-        hills.model.position.z = Math.floor(Math.random() * (80 - (-80)) + (-80));
-
-        let posZ = hills.model.position.z + hills.length / 2;
-        let negZ = hills.model.position.z - hills.length / 2;
-
-        if(hillArray.length > 0){
-            for(let j = 0; j < hillArray.length; i++){
-                if(hillArray[j].posZ > posZ && hillArray[j].negZ < negZ){
-                    console.log("Overlapping hills");
-                }
-            }
-        }
-
-        let hillObject = {
-            model: hills.model.position.z,
-            length: hills.length,
-            posZ: posZ,
-            negZ: negZ
-        }
-
-        hillArray.push(hillObject);
-        CHUNK.add(hills.model);
     }
-    console.log(hillArray);
 
+    /*for(let i = 0; i < 3; i++){
+
+        hillObject.model.position.z = randomHillZ;
+        hillObject.model.position.x = -28;
+        CHUNK.add(hillObject.model);
+    }*/
 
     CHUNK.position.z = 0;
     CHUNK.position.y = 50;
