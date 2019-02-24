@@ -65,7 +65,7 @@ function rngHills() {
     let hillCluster = {
         model: hillsObj,
         length: objLength,
-        posZ: objLength,
+        posZ: posZ,
         negZ: negZ
     }
     return hillCluster;

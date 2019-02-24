@@ -135,7 +135,7 @@ function init() {
 }
 
 var addedTrack = false;
-var speed = 3; // default 0.3
+var speed = 0.3; // default 0.3
 var count = 0;
 var hillMove = false;
 
