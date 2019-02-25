@@ -25,7 +25,7 @@ function buildChunk(scene) {
 
 
     let hillArray = [];
-    let hillCount = Math.floor(Math.random() * (3 - 1) + 1);
+    let hillCount = Math.floor(Math.random() * (4 - 1) + 1);
     console.log(`Amount: ${hillCount}`);
 
     for (let i = 0; i < hillCount; i++) {
@@ -51,6 +51,7 @@ function buildChunk(scene) {
                 ) {
                     console.log('fail');
                     i--; //Retry a generation
+                    break;
                 } else {
                     // Problem is with the hillcount for some reason
                     hillObject.model.position.z = randomHillZ;
