@@ -35,7 +35,7 @@ function rngHills() {
                 hills.push(hill); // Add Hill to group
                 hillsObj.add(hill);
             }
-        } else { //If the first hill
+        } else { // If the first hill
             firstHillRadius = radius;
             objLength = hill.position.z + radius;
             subHill(hillsObj, hill);

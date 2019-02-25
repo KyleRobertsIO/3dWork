@@ -1,4 +1,4 @@
-function randomTreeSpawns(hillObj) {
+function randomTreeSpawns(hills) {
     let treeArray = [];
     let trees = new THREE.Group();
     position = 0;
@@ -17,16 +17,34 @@ function randomTreeSpawns(hillObj) {
     for (let i = 0; i < treeArray.length; i++) {
         treePositionsZ.push(treeArray[i].model.position.z);
     }
-    let posZ = Math.max.apply(null, treePositionsZ);
-    let negZ = Math.min.apply(null, treePositionsZ);
+    let treesPosZ = Math.max.apply(null, treePositionsZ);
+    let treesNegZ = Math.min.apply(null, treePositionsZ);
 
+    /*let w1 = createPlane(50, 0xff0000);
+    w1.position.z = treesPosZ;
+    let w2 = createPlane(50, 0xff0000);
+    w2.position.z = treesNegZ;
+    trees.add(w1, w2);*/
 
+    for(let i = 0; i < hills.length; i++){
+        let hillPosZ = hills[i].model.position.z + hills[i].posZ;
+        let hillNegZ = hills[i].model.position.z - hills[i].negZ;
+        if(
+            (hillPosZ > treesPosZ && hillNegZ < treesPosZ)
+            ||
+            (hillPosZ > treesNegZ && hillNegZ < treesNegZ)
+            ){
+            console.log('overlap');
+        }else{
+            console.log('valid');
+        }  
+    }
 
     trees.position.x = -7;
     let obj = {
         model: trees,
-        posZ: posZ,
-        negZ: negZ
+        posZ: treesPosZ,
+        negZ: treesNegZ
     }
     return obj;
 }
@@ -35,8 +53,6 @@ function createHills() {
     let hillArray = [];
     let hillClusters = new THREE.Group();
     let hillCount = Math.floor(Math.random() * (4 - 1) + 1);
-    console.log(hillCount);
-
     for (let i = 0; i < hillCount; i++) {
         let hillObject = rngHills();
         let randomHillZ = Math.floor(Math.random() * (80 - (-80)) + (-80));
@@ -89,7 +105,7 @@ function buildChunk(scene) {
     let hillClusters = createHills();
     CHUNK.add(hillClusters.model);
 
-    CHUNK.add(randomTreeSpawns(hillClusters).model);
+    CHUNK.add(randomTreeSpawns(hillClusters.hills).model);
 
     CHUNK.position.x = -28;
     CHUNK.position.z = 0;
