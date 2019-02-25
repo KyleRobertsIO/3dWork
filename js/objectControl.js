@@ -26,19 +26,15 @@ function buildChunk(scene) {
 
     let hillArray = [];
     let hillCount = Math.floor(Math.random() * (4 - 1) + 1);
-    console.log(`Amount: ${hillCount}`);
 
     for (let i = 0; i < hillCount; i++) {
         let hillObject = rngHills();
         let randomHillZ = Math.floor(Math.random() * (80 - (-80)) + (-80));
         if (i == 0) {
-            console.log(`set ${i}`);
             hillObject.model.position.z = randomHillZ;
             CHUNK.add(hillObject.model);
             hillArray.push(hillObject);
         } else if(i > 0) {
-            // Loop through hillArray hill positions
-            console.log(`set ${i}`);
             let currentPosZ = randomHillZ + hillObject.posZ;
             let currentNegZ = randomHillZ - hillObject.negZ;
             for (let j = 0; j < hillCount; j++) {
@@ -50,10 +46,9 @@ function buildChunk(scene) {
                     (prevPosZ > currentNegZ && prevNegZ < currentNegZ)
                 ) {
                     console.log('fail');
-                    i--; //Retry a generation
+                    i--; // Retry a generation
                     break;
                 } else {
-                    // Problem is with the hillcount for some reason
                     hillObject.model.position.z = randomHillZ;
                     CHUNK.add(hillObject.model);
                     hillArray.push(hillObject);
@@ -61,13 +56,6 @@ function buildChunk(scene) {
             }
         }
     }
-
-    /*for(let i = 0; i < 3; i++){
-
-        hillObject.model.position.z = randomHillZ;
-        hillObject.model.position.x = -28;
-        CHUNK.add(hillObject.model);
-    }*/
 
     CHUNK.position.z = 0;
     CHUNK.position.y = 50;
